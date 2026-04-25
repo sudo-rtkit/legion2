@@ -141,10 +141,12 @@ export interface Unit {
   attackRange: number | null;
   attackSpeed: number | null;
   hp: number | null;
+  mp: number | null;
   dps: number | null;
   dmgBase: number | null;
   dmgMax: number | null;
   dmgExpected: number | null;
+  moveType: string;
   moveSpeed: number | null;
   mspdText: string;
   goldBounty: number | null;
@@ -152,13 +154,17 @@ export interface Unit {
   totalValue: number | null;
   incomeBonus: number | null;
   mythiumCost: number | null;
+  stockMax: number | null;
+  stockTime: number | null;
   categoryClass: string;
   unitClass: string;
   legionId: string;
+  flags: string[];
   abilities: string[];
   upgradesFrom: string[];
   iconPath: string;
   splashPath: string;
+  sortOrder: string;
   tooltip: string;
   description: string;
   isEnabled: boolean;
@@ -181,10 +187,12 @@ export function parseApiUnit(api: ApiUnit): Unit {
     attackRange: numOrNull(api.attackRange),
     attackSpeed: numOrNull(api.attackSpeed),
     hp: numOrNull(api.hp),
+    mp: numOrNull(api.mp),
     dps: numOrNull(api.dps),
     dmgBase: numOrNull(api.dmgBase),
     dmgMax: numOrNull(api.dmgMax),
     dmgExpected: numOrNull(api.dmgExpected),
+    moveType: api.moveType,
     moveSpeed: numOrNull(api.moveSpeed),
     mspdText: api.mspdText,
     goldBounty: numOrNull(api.goldBounty),
@@ -192,13 +200,17 @@ export function parseApiUnit(api: ApiUnit): Unit {
     totalValue: numOrNull(api.totalValue),
     incomeBonus: numOrNull(api.incomeBonus),
     mythiumCost: numOrNull(api.mythiumCost),
+    stockMax: numOrNull(api.stockMax),
+    stockTime: numOrNull(api.stockTime),
     categoryClass: api.categoryClass,
     unitClass: api.unitClass,
     legionId: api.legionId,
+    flags: api.flags ? api.flags.split(',').filter(Boolean) : [],
     abilities: api.abilities,
     upgradesFrom: api.upgradesFrom,
     iconPath: api.iconPath,
     splashPath: api.splashPath,
+    sortOrder: api.sortOrder,
     tooltip: api.tooltip,
     description: api.description,
     isEnabled: api.isEnabled,
