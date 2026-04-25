@@ -1,0 +1,23 @@
+[
+  {
+    "_id": "element_legion_id",
+    "category": "legions",
+    "name": "Element",
+    "iconPath": "Icons/Element.png",
+    "playable": true
+  },
+  {
+    "_id": "creature_legion_id",
+    "category": "legions",
+    "name": "Creature",
+    "iconPath": "Icons/Creature.png",
+    "playable": false
+  },
+  {
+    "_id": "forsaken_legion_id",
+    "category": "legions",
+    "name": "Forsaken",
+    "iconPath": "Icons/Forsaken.png",
+    "playable": true
+  }
+]

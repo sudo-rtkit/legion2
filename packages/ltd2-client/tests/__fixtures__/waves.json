@@ -1,0 +1,37 @@
+[
+  {
+    "_id": "level0_wave_id",
+    "category": "waves",
+    "levelNum": "0",
+    "name": "Empty",
+    "amount": "0",
+    "prepareTime": "0",
+    "totalReward": "0",
+    "waveUnitId": "",
+    "iconPath": "Icons/Empty.png"
+  },
+  {
+    "_id": "level1_wave_id",
+    "category": "waves",
+    "levelNum": "1",
+    "name": "Crabs",
+    "amount": "12",
+    "prepareTime": "90",
+    "totalReward": "72",
+    "waveUnitId": "crab_unit_id",
+    "iconPath": "Icons/Crab.png"
+  },
+  {
+    "_id": "level10_wave_id",
+    "category": "waves",
+    "levelNum": "10",
+    "name": "Scorpions",
+    "amount": "8",
+    "amount2": "1",
+    "prepareTime": "60",
+    "totalReward": "280",
+    "waveUnitId": "scorpion_unit_id",
+    "spellUnit2Id": "scorpion_king_unit_id",
+    "iconPath": "Icons/Scorpion.png"
+  }
+]

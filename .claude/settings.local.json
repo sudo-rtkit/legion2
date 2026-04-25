@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:swagger.legiontd2.com)",
+      "WebFetch(domain:apiv2.legiontd2.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:legiontd2.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:registry.npmjs.org)",
+      "WebFetch(domain:legiontd2.fandom.com)",
+      "WebFetch(domain:pypi.org)",
+      "WebFetch(domain:www.reddit.com)",
+      "Bash(pnpm test *)"
+    ]
+  }
+}
