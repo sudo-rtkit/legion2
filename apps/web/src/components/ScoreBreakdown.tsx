@@ -1,6 +1,6 @@
 'use client';
 
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer } from 'recharts';
+import { cn } from '@/lib/utils';
 
 interface ScoreBreakdownProps {
   breakdown: {
@@ -12,31 +12,33 @@ interface ScoreBreakdownProps {
   };
 }
 
-export function ScoreBreakdown({ breakdown }: ScoreBreakdownProps) {
-  const data = [
-    { subject: 'Damage', value: Math.round(breakdown.damageScore * 100) },
-    { subject: 'Survival', value: Math.round(breakdown.survivalScore * 100) },
-    { subject: 'Send', value: Math.round(breakdown.sendScore * 100) },
-    { subject: 'Value', value: Math.round(breakdown.valueScore * 100) },
-    { subject: 'Meta', value: Math.round(breakdown.metaScore * 100) },
-  ];
+const DIMS = [
+  { key: 'damageScore', label: 'Damage' },
+  { key: 'survivalScore', label: 'Survival' },
+  { key: 'sendScore', label: 'Send' },
+  { key: 'valueScore', label: 'Value' },
+  { key: 'metaScore', label: 'Meta' },
+] as const;
 
+export function ScoreBreakdown({ breakdown }: ScoreBreakdownProps) {
   return (
-    <ResponsiveContainer width="100%" height={160}>
-      <RadarChart data={data}>
-        <PolarGrid stroke="hsl(var(--border))" />
-        <PolarAngleAxis
-          dataKey="subject"
-          tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }}
-        />
-        <Radar
-          name="Score"
-          dataKey="value"
-          stroke="hsl(var(--primary))"
-          fill="hsl(var(--primary))"
-          fillOpacity={0.3}
-        />
-      </RadarChart>
-    </ResponsiveContainer>
+    <div className="space-y-2">
+      {DIMS.map(({ key, label }) => {
+        const pct = Math.round(breakdown[key] * 100);
+        const barColor = pct >= 75 ? 'bg-lime' : pct >= 45 ? 'bg-warn' : 'bg-chrome-strong';
+        const textColor = pct >= 75 ? 'text-lime' : pct >= 45 ? 'text-warn' : 'text-ink-3';
+        return (
+          <div key={key} className="flex items-center gap-2">
+            <span className="caption-label text-ink-3 w-16 flex-shrink-0">{label}</span>
+            <div className="flex-1 h-1.5 bg-elevated-2 rounded-full overflow-hidden">
+              <div className={cn('h-full rounded-full', barColor)} style={{ width: `${pct}%` }} />
+            </div>
+            <span className={cn('font-mono text-xs w-8 text-right tabular-nums', textColor)}>
+              {pct}%
+            </span>
+          </div>
+        );
+      })}
+    </div>
   );
 }
