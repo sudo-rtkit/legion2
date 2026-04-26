@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: #2a2a3e;
+  }
+
+  html {
+    background-color: #0a0a0f;
+    color: #e8e8f5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #0a0a0f;
+    color: #e8e8f5;
+    font-family: var(--font-inter), system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #14141c;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2a2a3e;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3d3d57;
+  }
+
+  /* Native select styling */
+  select {
+    background-color: #14141c;
+    color: #e8e8f5;
+    border: 1px solid #2a2a3e;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 13px;
+    font-family: var(--font-inter), system-ui, sans-serif;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239595b0' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 28px;
+  }
+  select:focus {
+    border-color: #4ade80;
+  }
+  select option {
+    background-color: #14141c;
+    color: #e8e8f5;
+  }
+}
+
+@layer utilities {
+  .caption-label {
+    font-size: 0.6875rem;
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .stat-mono {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .display-score {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 3rem;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Accent glow for filled cells */
+  .unit-cell-glow {
+    box-shadow: 0 0 12px rgba(74, 222, 128, 0.08);
+  }
+  .unit-cell-glow:hover {
+    box-shadow: 0 0 16px rgba(74, 222, 128, 0.20);
+  }
+}
