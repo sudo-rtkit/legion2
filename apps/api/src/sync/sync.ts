@@ -42,6 +42,7 @@ async function run() {
   let legionCount = 0;
   let waveCount = 0;
   let unitCount = 0;
+  let fighterCount = 0;
   let abilityCount = 0;
 
   await db.transaction(async (tx) => {
@@ -200,8 +201,106 @@ async function run() {
       unitCount++;
     }
 
-    // 5. Fighter units — cannot discover from waves data; deferring to a future sync strategy
-    console.log('Skipping fighter sync — see TODO: no fighter list endpoint in info/legions');
+    // 5. Fighter units — paginated byVersion, filter unitClass === 'Fighter'
+    const versionRows = await tx
+      .select({ version: schema.units.version })
+      .from(schema.units)
+      .limit(1);
+    if (versionRows.length > 0) {
+      const version = versionRows[0]!.version;
+      const limit = 50;
+      let offset = 0;
+      while (true) {
+        const page = await client.getUnitsByVersion(version, offset, limit);
+        if (page.length === 0) break;
+        const fighters = page.filter((u) => u.unitClass === 'Fighter');
+        if (fighters.length > 0) {
+          await tx
+            .insert(schema.units)
+            .values(
+              fighters.map((u) => ({
+                id: u.unitId,
+                mongoId: u.id,
+                name: u.name,
+                version: u.version,
+                unitClass: u.unitClass,
+                categoryClass: u.categoryClass,
+                legionId: u.legionId,
+                hp: u.hp,
+                mp: u.mp,
+                dps: u.dps,
+                dmgBase: u.dmgBase,
+                dmgMax: u.dmgMax,
+                attackSpeed: u.attackSpeed,
+                attackRange: u.attackRange,
+                attackType: u.attackType,
+                attackMode: u.attackMode,
+                armorType: u.armorType,
+                moveSpeed: u.moveSpeed,
+                moveType: u.moveType,
+                goldCost: u.goldCost,
+                goldBounty: u.goldBounty,
+                mythiumCost: u.mythiumCost,
+                incomeBonus: u.incomeBonus,
+                totalValue: u.totalValue,
+                stockMax: u.stockMax != null ? Math.round(u.stockMax) : null,
+                stockTime: u.stockTime,
+                iconPath: u.iconPath,
+                splashPath: u.splashPath,
+                description: u.description,
+                flags: u.flags,
+                abilities: u.abilities,
+                upgradesFrom: u.upgradesFrom,
+                isEnabled: u.isEnabled,
+                sortOrder: u.sortOrder,
+                updatedAt: now,
+              })),
+            )
+            .onConflictDoUpdate({
+              target: schema.units.id,
+              set: {
+                mongoId: sql`excluded.mongo_id`,
+                name: sql`excluded.name`,
+                version: sql`excluded.version`,
+                unitClass: sql`excluded.unit_class`,
+                categoryClass: sql`excluded.category_class`,
+                legionId: sql`excluded.legion_id`,
+                hp: sql`excluded.hp`,
+                mp: sql`excluded.mp`,
+                dps: sql`excluded.dps`,
+                dmgBase: sql`excluded.dmg_base`,
+                dmgMax: sql`excluded.dmg_max`,
+                attackSpeed: sql`excluded.attack_speed`,
+                attackRange: sql`excluded.attack_range`,
+                attackType: sql`excluded.attack_type`,
+                attackMode: sql`excluded.attack_mode`,
+                armorType: sql`excluded.armor_type`,
+                moveSpeed: sql`excluded.move_speed`,
+                moveType: sql`excluded.move_type`,
+                goldCost: sql`excluded.gold_cost`,
+                goldBounty: sql`excluded.gold_bounty`,
+                mythiumCost: sql`excluded.mythium_cost`,
+                incomeBonus: sql`excluded.income_bonus`,
+                totalValue: sql`excluded.total_value`,
+                stockMax: sql`excluded.stock_max`,
+                stockTime: sql`excluded.stock_time`,
+                iconPath: sql`excluded.icon_path`,
+                splashPath: sql`excluded.splash_path`,
+                description: sql`excluded.description`,
+                flags: sql`excluded.flags`,
+                abilities: sql`excluded.abilities`,
+                upgradesFrom: sql`excluded.upgrades_from`,
+                isEnabled: sql`excluded.is_enabled`,
+                sortOrder: sql`excluded.sort_order`,
+                updatedAt: sql`excluded.updated_at`,
+              },
+            });
+          fighterCount += fighters.length;
+        }
+        if (page.length < limit) break;
+        offset += limit;
+      }
+    }
 
     // 6. Abilities (best-effort, paginated with limit ≤ 50)
     try {
@@ -266,7 +365,7 @@ async function run() {
   });
 
   console.log(
-    `Synced ${legionCount} legions, ${waveCount} waves, ${unitCount} units, ${abilityCount} abilities, ${DAMAGE_MATRIX.length} matrix entries`,
+    `Synced ${legionCount} legions, ${waveCount} waves, ${unitCount} creature units, ${fighterCount} fighters, ${abilityCount} abilities, ${DAMAGE_MATRIX.length} matrix entries`,
   );
 
   await pgSql.end();

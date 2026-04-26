@@ -190,15 +190,24 @@ describe('Ltd2Client', () => {
   // ── getUnitsByVersion ─────────────────────────────────────────────────────
 
   describe('getUnitsByVersion()', () => {
-    it('hits /units/byVersion/{version} and returns array', async () => {
+    it('hits /units/byVersion/{version}?offset=0&limit=50 and returns array', async () => {
       fetchMock.mockResolvedValueOnce(makeResponse([crabFixture]));
       const units = await makeClient().getUnitsByVersion('v12.08.1.hf1');
       expect(fetchMock).toHaveBeenCalledWith(
-        `${BASE_URL}/units/byVersion/v12.08.1.hf1`,
+        `${BASE_URL}/units/byVersion/v12.08.1.hf1?offset=0&limit=50`,
         expect.anything(),
       );
       expect(units).toHaveLength(1);
       expect(units[0]?.name).toBe('Crab');
+    });
+
+    it('accepts custom offset and limit as query params', async () => {
+      fetchMock.mockResolvedValueOnce(makeResponse([crabFixture]));
+      await makeClient().getUnitsByVersion('v12.08.1.hf1', 50, 50);
+      expect(fetchMock).toHaveBeenCalledWith(
+        `${BASE_URL}/units/byVersion/v12.08.1.hf1?offset=50&limit=50`,
+        expect.anything(),
+      );
     });
 
     it('caches bulk result for 24 h', async () => {

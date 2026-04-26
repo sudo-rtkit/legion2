@@ -212,12 +212,12 @@ export class Ltd2Client {
     return unit;
   }
 
-  async getUnitsByVersion(version: string): Promise<Unit[]> {
-    const cacheKey = `units:version:${version}`;
+  async getUnitsByVersion(version: string, offset = 0, limit = 50): Promise<Unit[]> {
+    const cacheKey = `units:version:${version}:${offset}:${limit}`;
     const cached = this.getCached<Unit[]>(cacheKey);
     if (cached) return cached;
     const data = await this.fetchWithRetry<ApiUnit[]>(
-      `/units/byVersion/${encodeURIComponent(version)}`,
+      `/units/byVersion/${encodeURIComponent(version)}?offset=${offset}&limit=${limit}`,
     );
     const units = data.map(parseApiUnit);
     this.setCached(cacheKey, units, TTL_24H_MS);
