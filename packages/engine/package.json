@@ -1,0 +1,26 @@
+{
+  "name": "@ltd2-coach/engine",
+  "version": "0.1.0",
+  "description": "Pure build recommendation logic for Legion TD 2",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run --coverage",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist coverage .tsbuildinfo"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@vitest/coverage-v8": "^2.0.0",
+    "typescript": "^5.6.3",
+    "vitest": "^2.0.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "Pierce": {
+    "Swift": 1.25,
+    "Natural": 0.75,
+    "Arcane": 1.25,
+    "Fortified": 0.75,
+    "Immaterial": 1.0
+  },
+  "Impact": {
+    "Swift": 0.75,
+    "Natural": 0.75,
+    "Arcane": 1.25,
+    "Fortified": 1.25,
+    "Immaterial": 1.0
+  },
+  "Magic": { "Swift": 1.0, "Natural": 1.25, "Arcane": 0.75, "Fortified": 1.25, "Immaterial": 1.0 },
+  "Pure": { "Swift": 1.0, "Natural": 1.0, "Arcane": 1.0, "Fortified": 1.0, "Immaterial": 1.0 }
+}

@@ -1,0 +1,35 @@
+[
+  {
+    "levelNum": 1,
+    "name": "Crabs",
+    "amount": 12,
+    "isKingWave": false,
+    "unitHp": 120,
+    "unitDps": 5.22,
+    "unitArmorType": "Fortified",
+    "unitAttackType": "Pierce",
+    "unitMoveType": "Ground"
+  },
+  {
+    "levelNum": 5,
+    "name": "Hellraisers",
+    "amount": 10,
+    "isKingWave": false,
+    "unitHp": 340,
+    "unitDps": 14.0,
+    "unitArmorType": "Swift",
+    "unitAttackType": "Impact",
+    "unitMoveType": "Ground"
+  },
+  {
+    "levelNum": 20,
+    "name": "Airborne",
+    "amount": 6,
+    "isKingWave": false,
+    "unitHp": 2200,
+    "unitDps": 55.0,
+    "unitArmorType": "Arcane",
+    "unitAttackType": "Magic",
+    "unitMoveType": "Air"
+  }
+]
